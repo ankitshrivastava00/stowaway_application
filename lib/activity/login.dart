@@ -1,4 +1,3 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,7 +21,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  String _contactText,reply;
+  String reply;
   Response response;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
@@ -34,7 +33,6 @@ class _LoginState extends State<Login> {
 
   String _mobile, _password;
   var map, ownerMap;
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -47,12 +45,12 @@ class _LoginState extends State<Login> {
     try {
       final result1 = await
       SimplePermissions.getPermissionStatus(Permission.AccessFineLocation);
-      print("permission status is Ankit :"+result1.toString());
+  //    print("permission status is Ankit :"+result1.toString());
       bool result = await SimplePermissions.checkPermission(Permission.AccessFineLocation);
       if (result==false){
         bool result = (await SimplePermissions.requestPermission( Permission.AccessFineLocation)) as bool;
-        print("request :"+ result.toString());
-        print("permission is "+ result.toString());
+  //      print("request :"+ result.toString());
+   //     print("permission is "+ result.toString());
 
       }else{
 
@@ -81,23 +79,7 @@ class _LoginState extends State<Login> {
     } catch (e) {
       print(e.toString());
     }
-    void checkpermission() async{
-      bool result = await SimplePermissions.checkPermission(Permission.AccessFineLocation);
-      if (result==false){
-        bool result = (await SimplePermissions.requestPermission( Permission.AccessFineLocation)) as bool;
-        print("request :"+ result.toString());
-      }else{
-      }
-      print("permission is "+ result.toString());
-    }
-    Future<bool> requestPermission() async{
 
-    }
-    void getstatus() async{
-      final result = await
-      SimplePermissions.getPermissionStatus(Permission.AccessFineLocation);
-      print("permission status is :"+result.toString());
-    }
     /*
     final snackbar = SnackBar(
     content: Text('Email: $_email, password: $_password'),
