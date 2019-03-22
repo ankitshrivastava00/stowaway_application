@@ -1,16 +1,13 @@
-import 'package:connectivity/connectivity.dart';
+//import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
-import 'package:stowaway_application/activity/forgot.dart';
-import 'package:stowaway_application/activity/otp.dart';
+
 import 'dart:async';
 import 'package:stowaway_application/common/Connectivity.dart';
 import 'package:stowaway_application/common/CustomProgressDialog.dart';
-import 'dart:convert';
 import 'dart:io';
-import 'dart:async';
 
 class Forgot extends StatefulWidget {
   @override
@@ -19,7 +16,7 @@ class Forgot extends StatefulWidget {
 
 class _ForgotState extends State<Forgot> {
 
-  String _contactText,reply;
+  String reply;
   Response response;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
@@ -27,9 +24,8 @@ class _ForgotState extends State<Forgot> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   //SharedPreferences prefs;
-  String _email, _password;
+  String _email;
   var map, ownerMap;
-  bool _isLoading = false;
 
   @override
   void initState() {

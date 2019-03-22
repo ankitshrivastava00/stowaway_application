@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as LocationManager;
 import 'package:stowaway_application/activity/delivery_activity.dart';
 import 'package:stowaway_application/activity/place_detail.dart';
-import 'package:stowaway_application/activity/place_order_form.dart';
 
 const kGoogleApiKey = "AIzaSyCarZg-pjH3T-d8XHqdfK_3dBPCtCn9m-w";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
@@ -389,7 +388,7 @@ class HomeState extends State<Home> {
     var currentLocation = <String, double>{};
     final location = LocationManager.Location();
     try {
-      currentLocation = await location.getLocation();
+      currentLocation = (await location.getLocation()) as Map<String, double>;
       final lat = currentLocation["latitude"];
       final lng = currentLocation["longitude"];
       final center = LatLng(lat, lng);

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+//import 'package:simple_permissions/simple_permissions.dart';
 import 'package:stowaway_application/activity/forgot.dart';
 import 'package:stowaway_application/activity/startscreen.dart';
 import 'dart:async';
@@ -13,6 +13,7 @@ import 'package:stowaway_application/common/CustomProgressDialog.dart';
 import 'package:stowaway_application/common/UserPreferences.dart';
 import 'package:stowaway_application/navigation_drawer/home_pages.dart';
 import 'dart:io';
+import 'package:flutter/services.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = new TextEditingController();
 
   SharedPreferences prefs;
+  String _platformVersion = 'Unknown';
 
   String _mobile, _password;
   var map, ownerMap;
@@ -38,21 +40,41 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    //initPlatformState();
   }
+ /* initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      platformVersion = await SimplePermissions.platformVersion;
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
 
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+  }*/
   void _performLogin() async{
     try {
-      final result1 = await
-      SimplePermissions.getPermissionStatus(Permission.AccessFineLocation);
+   /*   final result1 = await SimplePermissions.getPermissionStatus(Permission.AccessFineLocation);
+      print("permission status is " + result1.toString());
       print("permission status is Ankit :"+result1.toString());
       bool result = await SimplePermissions.checkPermission(Permission.AccessFineLocation);
+      print("permission is " + result.toString());
       if (result==false){
-        bool result = (await SimplePermissions.requestPermission( Permission.AccessFineLocation)) as bool;
+     *//*   bool result = (await SimplePermissions.requestPermission( Permission.AccessFineLocation)) as bool;
         print("request :"+ result.toString());
-      print("permission is "+ result.toString());
+      print("permission is "+ result.toString());*//*
+        final res = await SimplePermissions.requestPermission(Permission.AccessFineLocation);
+        print("permission request result is " + res.toString());
 
-      }else{
+      }else{*/
         final form = formKey.currentState;
 
     if (form.validate()) {
@@ -72,7 +94,7 @@ class _LoginState extends State<Login> {
       }
 
     }
-      }
+   //   }
     } catch (e) {
       print(e.toString());
     }
@@ -250,23 +272,7 @@ class _LoginState extends State<Login> {
     Navigator.pushReplacement(context,
         new MaterialPageRoute(builder: (BuildContext context) => StartScreen()));
 
-  /*  return showDialog(
-      context: context,
-      child: new AlertDialog(
-        title: new Text('Are you sure?'),
-        content: new Text('Unsaved data will be lost.'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('No'),
-          ),
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    ) ?? false;*/
+
   }
 
   @override
