@@ -45,11 +45,11 @@ class _LoginState extends State<Login> {
     try {
       final result1 = await
       SimplePermissions.getPermissionStatus(Permission.AccessFineLocation);
-  //    print("permission status is Ankit :"+result1.toString());
+      print("permission status is Ankit :"+result1.toString());
       bool result = await SimplePermissions.checkPermission(Permission.AccessFineLocation);
       if (result==false){
         bool result = (await SimplePermissions.requestPermission( Permission.AccessFineLocation)) as bool;
-  //      print("request :"+ result.toString());
+        print("request :"+ result.toString());
    //     print("permission is "+ result.toString());
 
       }else{
