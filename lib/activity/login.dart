@@ -50,7 +50,7 @@ class _LoginState extends State<Login> {
       if (result==false){
         bool result = (await SimplePermissions.requestPermission( Permission.AccessFineLocation)) as bool;
         print("request :"+ result.toString());
-   //    print("permission is "+ result.toString());
+      print("permission is "+ result.toString());
 
       }else{
         final form = formKey.currentState;
