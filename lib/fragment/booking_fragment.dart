@@ -17,6 +17,9 @@ class _BookingFragmentState extends State<BookingFragment> {
   List<OrderModel> list = List();
   var isLoading = false;
   String    userId;
+
+
+
   _fetchData(String token) async {
     setState(() {
       isLoading = true;
@@ -37,6 +40,8 @@ class _BookingFragmentState extends State<BookingFragment> {
       throw Exception('Failed to load photos');
     }
   }
+
+
 
   @override
   void initState() {
@@ -156,11 +161,19 @@ class _BookingFragmentState extends State<BookingFragment> {
                                   height: 40.0,
                                   width: 40.0,),*/
 
-                                subtitle: new Container(
+                                subtitle:
+                                new Padding(padding: EdgeInsets.all(0.0),
+
+                                child: new Column(
+                                  children: <Widget>[
+                                    new Row(
+                                     children: <Widget>[
+                                 new Expanded(
+                                     child: new Container(
                                   child: new Padding(
                                     padding: EdgeInsets.all(5.0),
-                                    child: new Text(list[index].Commodity,
-                                        textAlign: TextAlign.left,
+                                    child: new Text('Name : '+list[index].Giver_Name,
+                                        textAlign: TextAlign.start,
                                         style: new TextStyle(
                                           fontSize: 13.0,
                                           fontFamily: 'Roboto',
@@ -168,14 +181,141 @@ class _BookingFragmentState extends State<BookingFragment> {
                                   ),
                                   margin: EdgeInsets.all(5.0),
                                 ),
+                                 ),
+                          new Expanded(
+                            child:
+                              new Container(
+                                  child: new Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Text('Commodity : '+list[index].Commodity,
+                                        textAlign: TextAlign.start,
+                                        style: new TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                        )),
+                                  ),
+                                  margin: EdgeInsets.all(5.0),
+                                ),
+                                ),
+                                     ],
+                                    ),
+                        new Row(
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Container(
+                                  child: new Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Text('Driver Name : '+list[index].Recevier_Name,
+                                        textAlign: TextAlign.start,
+                                        style: new TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                        )),
+                                  ),
+                                  margin: EdgeInsets.all(5.0),
+                                ),
+                                ),
+                            new Expanded(
+                              child:   new Container(
+                                  child: new Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Text('Driver Email : '+list[index].Recevier_Email,
+                                        textAlign: TextAlign.start,
+                                        style: new TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                        )),
+                                  ),
+                                  margin: EdgeInsets.all(5.0),
+                                ),
+                                ),
+                                    ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+                            new Expanded(
+                              child:new Container(
+                                  child: new Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Text('Driver Number : '+list[index].Recevier_Phone,
+                                        textAlign: TextAlign.start,
+                                        style: new TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                        )),
+                                  ),
+                                  margin: EdgeInsets.all(5.0),
+                                ),
+                                ),
+                  new Expanded(
+                    child:new Container(
+                                  child: new Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Text('Price : '+list[index].Price,
+                                        textAlign: TextAlign.start,
+                                        style: new TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                        )),
+                                  ),
+                                  margin: EdgeInsets.all(5.0),
+                                ),
+                                ),
+                          ],), new Row(
+                        children: <Widget>[
+                          new Expanded(
+                            child:new Container(
+                                  child: new Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Text('Receiving Address : '+list[index].Receving_Address,
+                                        textAlign: TextAlign.start,
+                                        style: new TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                        )),
+                                  ),
+                                  margin: EdgeInsets.all(5.0),
+                                ),
+                                ),
+                  new Expanded(
+                    child:new Container(
+                                  child: new Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Text('Delivery Address : '+list[index].Delivery_Address,
+                                        textAlign: TextAlign.start,
+                                        style: new TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                        )),
+                                  ),
+                                  margin: EdgeInsets.all(5.0),
+                                ),
+                                ),
+                    ],),
+                                    new Container(
+                                      child: new Padding(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: new Text('Order Status : Not Accept',
+                                            textAlign: TextAlign.start,
+                                            style: new TextStyle(
+                                              fontSize: 13.0,
+                                              fontFamily: 'Roboto',
+                                              color:Colors.green,
+                                              fontWeight: FontWeight.bold
+                                            )),
+                                      ),
+                                      margin: EdgeInsets.all(5.0),
+                                    ),      ],
+                                ),  ),
 
-                                title: new Text(list[index].Giver_Name,
+                                title: new Text('Order Id : '+list[index].Id,
                                     textAlign: TextAlign.start,
                                     style: new TextStyle(
                                         fontSize: 15.0,
                                         fontFamily: 'Roboto',
                                         fontWeight: FontWeight.bold)),
-                              )),
+                              )
+              ),
                         ),
                       )),
                 );

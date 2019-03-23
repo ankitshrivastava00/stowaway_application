@@ -19,10 +19,8 @@ class DeliveryActivity extends StatefulWidget {
 
   @override
   _DeliveryActivityState createState() => _DeliveryActivityState();
-  String text;
-  DeliveryActivity({Key key, @required this.text}) : super(key: key);
-
-
+  String picklocation,destination;
+  DeliveryActivity(this.picklocation,this.destination);
 }
 
 class _DeliveryActivityState extends State<DeliveryActivity> {
@@ -38,9 +36,6 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
   TextEditingController recivername = new TextEditingController();
   TextEditingController reemail = new TextEditingController();
   TextEditingController recmobile = new TextEditingController();
-
-
-//  SharedPreferences prefs;
 
   String _first_name,
       _mobile,
@@ -127,14 +122,14 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
 
         };
 
-        apiRequest(url, map,user_token);
+        apiRequest(url, map,user_token,wiethController.text);
       }
     } catch (e) {
       print(e.toString());
     }
 
   }
-  Future<String> apiRequest(String url, Map jsonMap,String tokenAuth) async {
+  Future<String> apiRequest(String url, Map jsonMap,String tokenAuth,String weigth) async {
     try {
       CustomProgressLoader.showLoader(context);
 
@@ -164,7 +159,7 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
               fontSize: 16.0);*/
          // startPayment();
           Navigator.pushReplacement(context,
-              new MaterialPageRoute(builder: (BuildContext context) => PayActivity()));
+              new MaterialPageRoute(builder: (BuildContext context) => PayActivity(weigth)));
 
           return reply;
         } else {
@@ -357,7 +352,7 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
 
                         child: new SizedBox(
                         width: double.infinity,
-              child:  new  Text('243 Joina Pine',
+              child:  new  Text('${widget.picklocation}',
                   style: TextStyle(
                   color: Colors.black,
                   fontSize: 15.0,),
@@ -368,7 +363,7 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
 
                     child: new SizedBox(
                       width: double.infinity,
-                      child:      new  Text("8753 Maurico Walks",
+                      child:      new  Text('${widget.destination}',
                   style: TextStyle(
                   color: Colors.black,
                   fontSize: 15.0,),
@@ -443,7 +438,7 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
 
                     padding:EdgeInsets.all(12.0),
                     child: new SizedBox(
-                      child:         Text("NOTE : This  is an approximate  estimate. Actual time  and fares  may very  slightly  based  on traffic or discount",
+                      child:       Text("NOTE : This  is an approximate  estimate. Actual time  and fares  may very  slightly  based  on traffic or discount",
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 15.0,),

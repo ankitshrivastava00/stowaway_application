@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:stowaway_application/activity/forgot.dart';
 import 'package:stowaway_application/activity/startscreen.dart';
 import 'dart:async';
@@ -60,22 +61,9 @@ class _LoginState extends State<Login> {
       _platformVersion = platformVersion;
     });
   }*/
-  void _performLogin() async{
-    try {
-   /*   final result1 = await SimplePermissions.getPermissionStatus(Permission.AccessFineLocation);
-      print("permission status is " + result1.toString());
-      print("permission status is Ankit :"+result1.toString());
-      bool result = await SimplePermissions.checkPermission(Permission.AccessFineLocation);
-      print("permission is " + result.toString());
-      if (result==false){
-     *//*   bool result = (await SimplePermissions.requestPermission( Permission.AccessFineLocation)) as bool;
-        print("request :"+ result.toString());
-      print("permission is "+ result.toString());*//*
-        final res = await SimplePermissions.requestPermission(Permission.AccessFineLocation);
-        print("permission request result is " + res.toString());
 
-      }else{*/
-        final form = formKey.currentState;
+  void _submitTask() async{
+    final form = formKey.currentState;
 
     if (form.validate()) {
       form.save();
@@ -88,17 +76,33 @@ class _LoginState extends State<Login> {
           "Password":_password,
           "Email":_mobile
         };
-          apiRequest(url, map);
+        apiRequest(url, map);
       } catch (e) {
         print(e.toString());
       }
 
     }
-   //   }
+  }
+  void _performLogin() async{
+    try {
+      PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.locationAlways);
+      print("permission is " + permission.toString());
+      if (permission==PermissionStatus.denied){
+
+        bool isShown = await PermissionHandler().shouldShowRequestPermissionRationale(PermissionGroup.locationAlways);
+        Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.locationAlways]);
+
+        print("permission request result is " + isShown.toString());
+        print("permission Handler result is " + permissions.toString());
+        if (isShown == true){
+          _submitTask();
+        }
+      }else if (permission==PermissionStatus.granted){
+        _submitTask();
+      }
     } catch (e) {
       print(e.toString());
     }
-
     /*
     final snackbar = SnackBar(
     content: Text('Email: $_email, password: $_password'),

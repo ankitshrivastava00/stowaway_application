@@ -82,7 +82,8 @@ class HomePageState extends State<HomePage> {
       _name = prefs.getString(UserPreferences.USER_NAME);
       _email = prefs.getString(UserPreferences.USER_EMAIL);
       _mobile = prefs.getString(UserPreferences.USER_MOBILE);
-      print('userID'+userId+" : "+_name+" : "+_email+" : "+_mobile);
+    String  toke = prefs.getString(UserPreferences.USER_TOKEN);
+      print('userID'+userId+" : "+_name+" : "+_email+" : "+_mobile+" : "+toke);
     });
 
   }

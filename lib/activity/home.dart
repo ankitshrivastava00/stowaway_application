@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,12 @@ class HomeState extends State<Home> {
   List<PlacesSearchResult> places = [];
   bool isLoading = false;
   String errorMessage;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //initPlatformState();
+  }
 /*
   @override
   Widget build(BuildContext context) {
@@ -90,6 +97,7 @@ class HomeState extends State<Home> {
           ],
         ));
   }*/
+
   Widget build(BuildContext context) {
 
     final pickLocation =  TextFormField(
@@ -110,7 +118,6 @@ class HomeState extends State<Home> {
       controller: passwordController,
       keyboardType: TextInputType.text,
 
-
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
@@ -119,6 +126,7 @@ class HomeState extends State<Home> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
     );
+
     return Scaffold(
 
       body: Stack(
@@ -128,9 +136,9 @@ class HomeState extends State<Home> {
             options: GoogleMapOptions(
               trackCameraPosition: true,
               myLocationEnabled: true,
-
               cameraPosition:
-                const CameraPosition(target: LatLng(0.0, 0.0),),
+              const CameraPosition(target: LatLng(0.0, 0.0),
+              ),
             ),
           ),
           Padding(
@@ -159,7 +167,7 @@ class HomeState extends State<Home> {
                               //           padding: new EdgeInsets.all(15.0),
                             ),*/
                           ),
-                              margin: new EdgeInsets.all(10.0)
+                              margin: new EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 10.0),
                         ),
                         new Container(
                           child: new SizedBox(
@@ -190,134 +198,173 @@ class HomeState extends State<Home> {
 
                             child: new RaisedButton(
                               onPressed: () {
-                                showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title:  new Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                if (emailController.text.isEmpty) {
 
-                                          children: <Widget>[
+                                  Fluttertoast.showToast(
+                                      msg: "Enter PickUp Address",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIos: 1,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else if (passwordController.text.isEmpty) {
 
-                                        new Expanded(
-                                          child:  new Container(
+                                  Fluttertoast.showToast(
+                                      msg: "Enter Destination",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIos: 1,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else {
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: new Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
 
-                                            child: new SizedBox(
-                                        child:  new Image.asset(
-                                          'images/clock.png',
-                                          width: 30.0,
-                                          height: 30.0,
+                                            children: <Widget>[
 
-                                        ),
-                                      ),
-                                      ),
-                                        ),
-                                        new Expanded(
+                                              new Expanded(
+                                                child: new Container(
 
-                                          child:Container(
+                                                  child: new SizedBox(
+                                                    child: new Image.asset(
+                                                      'images/clock.png',
+                                                      width: 30.0,
+                                                      height: 30.0,
 
-                                            child: Text("SELECT TIME",
-                                              style: TextStyle(
-                                                color: Colors.black,
-
-
-                                                fontSize: 14.0,),
-                                            ),
-                                            //   margin: EdgeInsets.only(left:8.0),
-                                          ),
-                                        ),
-                                      ]),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            new Row(children: <Widget>[
-                                              new Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  new Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                    children: <Widget>[
-                                        new Container(
-                                        alignment: AlignmentDirectional.bottomCenter,
-                                          padding:EdgeInsets.all(12.0),
-                                          child: new SizedBox(
-                                            child:         Text("8:00 AM",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 20.0,),
-                                            ),
-                                          ),
-                                        ),
-                                        new Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            new Container(
-                                              alignment: AlignmentDirectional.bottomCenter,
-
-
-                                              padding:EdgeInsets.all(12.0),
-                                              child: new SizedBox(
-                                                child:         Text("10:00 AM",
-                                                  style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 20.0,),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
+                                              new Expanded(
+
+                                                child: Container(
+
+                                                  child: Text("SELECT TIME",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
 
 
-                                          ],
+                                                      fontSize: 14.0,),
                                                   ),
-
-
-                                                ],
+                                                  //   margin: EdgeInsets.only(left:8.0),
+                                                ),
                                               ),
-                                                ],
+                                            ]),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              new Row(children: <Widget>[
+                                                new Column(
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .center,
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .center,
+                                                  children: <Widget>[
+                                                    new Row(
+                                                      mainAxisAlignment: MainAxisAlignment
+                                                          .spaceAround,
+                                                      children: <Widget>[
+                                                        new Container(
+                                                          alignment: AlignmentDirectional
+                                                              .bottomCenter,
+                                                          padding: EdgeInsets
+                                                              .all(12.0),
+                                                          child: new SizedBox(
+                                                            child: Text(
+                                                              "8:00 AM",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey,
+                                                                fontSize: 20.0,),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        new Column(
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .center,
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .center,
+                                                          children: <Widget>[
+                                                            new Container(
+                                                              alignment: AlignmentDirectional
+                                                                  .bottomCenter,
+                                                              padding: EdgeInsets
+                                                                  .all(12.0),
+                                                              child: new SizedBox(
+                                                                child: Text(
+                                                                  "10:00 AM",
+                                                                  style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontSize: 20.0,),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                               ),
-                                            ],)
-
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text('CANCEL',
-                                    style: TextStyle(
-                                    color: Colors.grey,
-                                      fontSize: 12.0,
-                                      /* decoration: TextDecoration.underline,
-                             decorationColor: Colors.red,
-                             decorationStyle: TextDecorationStyle.wavy,*/
-                                    ),
+                                            ],
                                           ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ), FlatButton(
-                                          child: Text('GET FARE ESTIMATE',
-                                            style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.0,
-                                    /* decoration: TextDecoration.underline,
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            child: Text('CANCEL',
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12.0,
+                                                /* decoration: TextDecoration.underline,
                              decorationColor: Colors.red,
                              decorationStyle: TextDecorationStyle.wavy,*/
-                                    ),),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ), FlatButton(
+                                            child: Text('GET FARE ESTIMATE',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12.0,
+                                                /* decoration: TextDecoration.underline,
+                             decorationColor: Colors.red,
+                             decorationStyle: TextDecorationStyle.wavy,*/
+                                              ),),
+                                            onPressed: () {
+                                              // registrationTask(_mobile);
+                                              Navigator.of(context).pop();
 
-                                            Navigator.push(context,
-                                                new MaterialPageRoute(builder: (BuildContext context) => DeliveryActivity()));
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                                /*Navigator.push(context,
+                                              Navigator.push(context,
+                                                  new MaterialPageRoute(
+                                                      builder: (
+                                                          BuildContext context) =>
+                                                          DeliveryActivity(
+                                                              emailController
+                                                                  .text,
+                                                              passwordController
+                                                                  .text)));
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  /*Navigator.push(context,
                                     new MaterialPageRoute(builder: (BuildContext context) => PlaceBookForm()));*/
+                                }
                               },
                               textColor: Colors.white,
                               child: new Text("Book Order"),
@@ -386,6 +433,7 @@ class HomeState extends State<Home> {
 
   Future<LatLng> getUserLocation() async {
     var currentLocation = <String, double>{};
+    //var currentLocation = <String, double>{};
     final location = LocationManager.Location();
     try {
       currentLocation = (await location.getLocation()) as Map<String, double>;
@@ -393,7 +441,7 @@ class HomeState extends State<Home> {
       final lng = currentLocation["longitude"];
       final center = LatLng(lat, lng);
       return center;
-    } on Exception {
+    } catch(e) {
       currentLocation = null;
       return null;
     }

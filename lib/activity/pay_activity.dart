@@ -18,6 +18,8 @@ import 'package:stowaway_application/common/UserPreferences.dart';
 class PayActivity extends StatefulWidget {
   @override
   _PayActivityState createState() => _PayActivityState();
+  String weigth;
+  PayActivity(this.weigth);
 }
 
 class _PayActivityState extends State<PayActivity> {
@@ -28,7 +30,7 @@ class _PayActivityState extends State<PayActivity> {
   String reply;
 
 //  SharedPreferences prefs;
-
+  int value,total;
   String _first_name,
       _last_name,
       _mobile,
@@ -41,6 +43,12 @@ class _PayActivityState extends State<PayActivity> {
     // TODO: implement initState
     super.initState();
     getSharedPreferences();
+    setState(() {
+      value = int.tryParse('${widget.weigth}');
+      total =value *10;
+      print('total Value ${total}');
+    });
+
   }
 
   getSharedPreferences() async {
@@ -232,21 +240,7 @@ class _PayActivityState extends State<PayActivity> {
 
   @override
   Widget build(BuildContext context) {
-    final destinationLocation = TextFormField(
-      //controller: passwordController,
-      keyboardType: TextInputType.text,
-      autofocus: true,
-      enabled: false,
-      enableInteractiveSelection: false,
 
-      decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        hintText: 'Enter Your Destination Location',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-      ),
-    );
     return  new  Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -280,7 +274,7 @@ class _PayActivityState extends State<PayActivity> {
                       children: <Widget>[
                         new Container(
                     margin: new EdgeInsets.all(15.0),
-                         child: new Text("20",
+                         child: new Text('${total}',
                            style: TextStyle(
                              color: Colors.white,
                              fontSize: 35.0,
