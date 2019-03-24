@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:stowaway_application/activity/otp.dart';
-import 'package:razorpay_plugin/razorpay_plugin.dart';
+//import 'package:razorpay_plugin/razorpay_plugin.dart';
 
 
 import 'package:stowaway_application/common/Connectivity.dart';
@@ -68,7 +68,7 @@ class _PlaceBookFormState extends State<PlaceBookForm> {
       _performLogin();
     }
   }
-
+/*
   startPayment() async {
     Map<String, dynamic> options = new Map();
     options.putIfAbsent("name", () => "Stowaway Payment");
@@ -116,7 +116,7 @@ String code=paymentResponse['code'];
 
 
 
-  }
+  }*/
 
   void _performLogin() async{
     //  _incrementCounter(_email);
@@ -183,7 +183,7 @@ String code=paymentResponse['code'];
               backgroundColor: Colors.grey,
               textColor: Colors.white,
               fontSize: 16.0);
-          startPayment();
+      //    startPayment();
          /*  Navigator.push(context,
                new MaterialPageRoute(builder: (BuildContext context) => PaymentActivity()));*/
           return reply;

@@ -118,7 +118,8 @@ class _RegistrationState extends State<Registration> {
               backgroundColor: Colors.grey,
               textColor: Colors.white,
               fontSize: 16.0);
-          Navigator.of(context).pop();
+          Navigator.pushReplacement(context,
+              new MaterialPageRoute(builder: (BuildContext context) => StartScreen()));
           return reply;
         } else if (status == "1") {
           Fluttertoast.showToast(

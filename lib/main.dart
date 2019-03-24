@@ -242,6 +242,7 @@ String login_status = 'FALSE',rout='/StartScreen';
     super.initState();
     getSharedPreferences();
   }
+
   getSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {

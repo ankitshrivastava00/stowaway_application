@@ -205,7 +205,7 @@ class _BookingFragmentState extends State<BookingFragment> {
                               child: new Container(
                                   child: new Padding(
                                     padding: EdgeInsets.all(5.0),
-                                    child: new Text('Driver Name : '+list[index].Recevier_Name,
+                                    child: new Text('Reciver Name : '+list[index].Recevier_Name,
                                         textAlign: TextAlign.start,
                                         style: new TextStyle(
                                           fontSize: 13.0,
@@ -219,7 +219,7 @@ class _BookingFragmentState extends State<BookingFragment> {
                               child:   new Container(
                                   child: new Padding(
                                     padding: EdgeInsets.all(5.0),
-                                    child: new Text('Driver Email : '+list[index].Recevier_Email,
+                                    child: new Text('Reciver Email : '+list[index].Recevier_Email,
                                         textAlign: TextAlign.start,
                                         style: new TextStyle(
                                           fontSize: 13.0,
@@ -237,7 +237,7 @@ class _BookingFragmentState extends State<BookingFragment> {
                               child:new Container(
                                   child: new Padding(
                                     padding: EdgeInsets.all(5.0),
-                                    child: new Text('Driver Number : '+list[index].Recevier_Phone,
+                                    child: new Text('Reciver Number : '+list[index].Recevier_Phone,
                                         textAlign: TextAlign.start,
                                         style: new TextStyle(
                                           fontSize: 13.0,
@@ -295,7 +295,7 @@ class _BookingFragmentState extends State<BookingFragment> {
                                     new Container(
                                       child: new Padding(
                                         padding: EdgeInsets.all(5.0),
-                                        child: new Text('Order Status : Not Accept',
+                                        child: new Text('Order Status : Not Accepted',
                                             textAlign: TextAlign.start,
                                             style: new TextStyle(
                                               fontSize: 13.0,

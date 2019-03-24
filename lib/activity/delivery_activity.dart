@@ -106,19 +106,21 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
             textColor: Colors.white,
             fontSize: 16.0);
       } else {
+      int  value = int.tryParse('${wiethController.text}');
+      int  total =value *10;
         String url = Constants.BASE_URL + Constants.PLACE_ORDER;
         Map map = {
           "User_id": userId,
           "Commodity": comodity.text,
-          "Receving_Address": Receving_Address,
-          "Delivery_Address": Delivery_Address,
+          "Receving_Address": '${widget.picklocation}',
+          "Delivery_Address": '${widget.destination}',
           "Giver_Name": _first_name,
           "Giver_Phone": _mobile,
           "Recevier_Phone": recmobile.text,
           "Recevier_Name": recivername.text,
           "Recevier_Email": reemail.text,
           "Weight": wiethController.text,
-          "Price": Price,
+          "Price": total,
 
         };
 
@@ -212,7 +214,9 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
   Widget build(BuildContext context) {
     final comodit =   new  Padding(
       padding: EdgeInsets.only(top: 10.0),
-      child:TextFormField(
+      child:new Container(
+        child:
+      TextFormField(
       controller: comodity,
       keyboardType: TextInputType.text,
 
@@ -223,11 +227,14 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       ),
       ),
+        margin: new EdgeInsets.all(15.0),
+      ),
     );
 
       final recivernam =   new  Padding(
         padding: EdgeInsets.only(top: 10.0),
-        child:TextFormField(
+        child:new Container(
+          child: TextFormField(
       controller: recivername,
       keyboardType: TextInputType.text,
 
@@ -237,12 +244,13 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
 
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       ),
-      ),
+      ),   margin: new EdgeInsets.all(15.0),
+        ),
     );
 
       final recieveremail =  new  Padding(
         padding: EdgeInsets.only(top: 10.0),
-        child: TextFormField(
+        child: new Container(child: TextFormField(
       controller: reemail,
       keyboardType: TextInputType.emailAddress,
 
@@ -253,11 +261,14 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       ),
       ),
+          margin: new EdgeInsets.all(15.0),
+        ),
     );
 
       final recievermobile =  new  Padding(
         padding: EdgeInsets.only(top: 10.0),
-        child: TextFormField(
+        child: new Container(child:
+          TextFormField(
       controller: recmobile,
       keyboardType: TextInputType.number,
 
@@ -268,6 +279,8 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       ),
       ),
+          margin: new EdgeInsets.all(15.0),
+        ),
     );
 
 
@@ -400,6 +413,7 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
                                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                               ),
                             ),
+                                margin: new EdgeInsets.all(15.0),
 
                           ),
                         ),

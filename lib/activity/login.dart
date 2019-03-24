@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:permission_handler/permission_handler.dart';
+//import 'package:permission_handler/permission_handler.dart';
 
 import 'package:stowaway_application/activity/forgot.dart';
 import 'package:stowaway_application/activity/startscreen.dart';
@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
   }
   void _performLogin() async{
     try {
-      PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.locationAlways);
+     /* PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.locationAlways);
       print("permission is " + permission.toString());
       if (permission==PermissionStatus.denied){
 
@@ -97,9 +97,9 @@ class _LoginState extends State<Login> {
         if (isShown == true){
           _submitTask();
         }
-      }else if (permission==PermissionStatus.granted){
+      }else if (permission==PermissionStatus.granted){*/
         _submitTask();
-      }
+     // }
     } catch (e) {
       print(e.toString());
     }

@@ -129,7 +129,8 @@ class _PayActivityState extends State<PayActivity> {
     notes.putIfAbsent('key', () => "value");
     notes.putIfAbsent('randomInfo', () => "haha");
     options.putIfAbsent("notes", () => notes);
-    options.putIfAbsent("api_key", () => "rzp_live_jvB6dYPSWVYnEp");
+    options.putIfAbsent("api_key", () => "rzp_test_xDhZniW6E8lmwa");
+  //  options.putIfAbsent("api_key", () => "rzp_live_jvB6dYPSWVYnEp");
     Map<dynamic,dynamic> paymentResponse = new Map();
     paymentResponse = await Razorpay.showPaymentForm(options);
     print("response $paymentResponse");
