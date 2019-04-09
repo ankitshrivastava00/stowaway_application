@@ -138,7 +138,7 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
       var isConnect = await ConectionDetecter.isConnected();
       if (isConnect) {
         HttpClient httpClient = new HttpClient();
-        HttpClientRequest request = await httpClient.postUrl(Uri.parse('https://floating-brushlands-52313.herokuapp.com/order/place_order'));
+        HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
         request.headers.set('Content-Type','Application/json');
         request.headers.set('Authorization','Bearer '+tokenAuth);
         request.add(utf8.encode(json.encode(jsonMap)));
@@ -191,11 +191,20 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
     } catch (e) {
       CustomProgressLoader.cancelLoader(context);
       print(e);
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 16.0);
       return reply;
     }
   }
 
   getSharedPreferences() async {
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
@@ -366,7 +375,9 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
                         child: new SizedBox(
                         width: double.infinity,
               child:  new  Text('${widget.picklocation}',
-                  style: TextStyle(
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
                   color: Colors.black,
                   fontSize: 15.0,),
                 ),),
@@ -377,7 +388,10 @@ class _DeliveryActivityState extends State<DeliveryActivity> {
                     child: new SizedBox(
                       width: double.infinity,
                       child:      new  Text('${widget.destination}',
-                  style: TextStyle(
+                  maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+
+                        style: TextStyle(
                   color: Colors.black,
                   fontSize: 15.0,),
                 ),

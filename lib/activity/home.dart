@@ -1,24 +1,14 @@
 import 'dart:async';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_maps_webservice/places.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:location/location.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart' as LocationManager;
 import 'package:stowaway_application/activity/delivery_activity.dart';
-import 'package:stowaway_application/activity/place_detail.dart';
+import 'package:flutter_places_dialog/flutter_places_dialog.dart';
 
 const kGoogleApiKey = "AIzaSyCarZg-pjH3T-d8XHqdfK_3dBPCtCn9m-w";
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
-/*
-void main() {
-  runApp(MaterialApp(
-    title: "PlaceZ",
-    home: Home(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
-*/
+//GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class Home extends StatefulWidget {
   @override
@@ -31,76 +21,85 @@ class HomeState extends State<Home> {
 
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
-
+  String pickUpLocation = 'Enter Your Pick Up Location',destinationUpLocation = 'Enter Your Destination Location';
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
   GoogleMapController mapController;
-  List<PlacesSearchResult> places = [];
   bool isLoading = false;
   String errorMessage;
+  PlaceDetails _place,_destinationPlace;
+
+  Location _locationService  = new Location();
+  bool _permission = false;
+  String error;
+
+  bool currentWidget = true;
+
+  Image image1;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //initPlatformState();
+    FlutterPlacesDialog
+        .setGoogleApiKey("AIzaSyCarZg-pjH3T-d8XHqdfK_3dBPCtCn9m-w");
   }
-/*
-  @override
-  Widget build(BuildContext context) {
-   *//* Widget expandedChild;
-    if (isLoading) {
-      expandedChild = Center(child: CircularProgressIndicator(value: null));
-    } else if (errorMessage != null) {
-      expandedChild = Center(
-        child: Text(errorMessage),
-      );
-    } else {
-      expandedChild = buildPlacesList();
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  showPlacePicker() async {
+    PlaceDetails place;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      place = await FlutterPlacesDialog.getPlacesDialog();
+    } on PlatformException {
+      place = null;
     }
-*//*
-    return Scaffold(
-        key: homeScaffoldKey,
-       *//* appBar: AppBar(
-          title: const Text("PlaceZ"),
-          actions: <Widget>[
-            isLoading
-                ? IconButton(
-              icon: Icon(Icons.timer),
-              onPressed: () {},
-            )
-                : IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () {
-                refresh();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                _handlePressButton();
-              },
-            ),
-          ],
-        ),*//*
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: SizedBox(
-                  height: 200.0,
-                  child: GoogleMap(
-                      onMapCreated: _onMapCreated,
-                      options: GoogleMapOptions(
-                          myLocationEnabled: true,
-                          cameraPosition:
-                          const CameraPosition(target: LatLng(0.0, 0.0))))),
-            ),
-            Expanded(child: expandedChild)
-          ],
-        ));
-  }*/
 
-  Widget build(BuildContext context) {
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
 
-    final pickLocation =  TextFormField(
+    print("$place");
+    setState(() {
+      _place = place;
+      if (_place == null) {
+        pickUpLocation = 'Enter Your Pick Up Location';
+      } else {
+        pickUpLocation = _place.address;
+      }
+
+    });
+  }// Platform messages are asynchronous, so we initialize in an async method.
+  showDestinationPlacePicker() async {
+
+    PlaceDetails place;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      place = await FlutterPlacesDialog.getPlacesDialog();
+    } on PlatformException {
+      place = null;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    print("$place");
+    setState(() {
+      _destinationPlace = place;
+      if (_destinationPlace == null){
+        destinationUpLocation = 'Enter Your Destination Location';
+      }else{
+        destinationUpLocation = _destinationPlace.address;
+      }
+    });
+  }
+/*  new GestureDetector(
+      onTap: () {
+
+        showPlacePicker();      },
+      child:TextFormField(
       controller: emailController,
       keyboardType: TextInputType.text,
 
@@ -112,9 +111,11 @@ class HomeState extends State<Home> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
-    );
-
-    final destinationLocation = TextFormField(
+      obscureText: false,
+     // enabled: false,
+    ),
+    );*/
+/*TextFormField(
       controller: passwordController,
       keyboardType: TextInputType.text,
 
@@ -125,8 +126,57 @@ class HomeState extends State<Home> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
+    );*/
+
+
+  Widget build(BuildContext context) {
+
+
+    final pickLocation =
+    new InkWell(
+      onTap: () => showPlacePicker(),
+      child: new Container(
+        //width: 100.0,
+        height: 40.0,
+
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          border: new Border.all(color: Colors.black, width: 1.0),
+          borderRadius: new BorderRadius.circular(5.0),
+
+
+        ),
+
+        child:  new Center(child: new Text('${pickUpLocation}',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+
+          style: new TextStyle(fontSize: 15.0, color: Colors.black54,),
+        ),
+      ),
+      ),
     );
 
+    final destinationLocation =   new InkWell(
+      onTap: () => showDestinationPlacePicker(),
+      child: new Container(
+        //width: 100.0,
+        height: 40.0,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          border: new Border.all(color: Colors.black, width: 1.0),
+          borderRadius: new BorderRadius.circular(5.0),
+
+        ),
+        child: new Center(
+          child :new Text('${destinationUpLocation}',
+          maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+
+          style: new TextStyle(fontSize: 15.0, color: Colors.black54),),
+      ),
+      ),
+    );
     return Scaffold(
 
       body: Stack(
@@ -198,7 +248,8 @@ class HomeState extends State<Home> {
 
                             child: new RaisedButton(
                               onPressed: () {
-                                if (emailController.text.isEmpty) {
+                            //    if (emailController.text.isEmpty) {
+                                if (pickUpLocation == "Enter Your Pick Up Location") {
 
                                   Fluttertoast.showToast(
                                       msg: "Enter PickUp Address",
@@ -208,7 +259,7 @@ class HomeState extends State<Home> {
                                       backgroundColor: Colors.grey,
                                       textColor: Colors.white,
                                       fontSize: 16.0);
-                                } else if (passwordController.text.isEmpty) {
+                                } else if (destinationUpLocation == "Enter Your Destination Location") {
 
                                   Fluttertoast.showToast(
                                       msg: "Enter Destination",
@@ -352,18 +403,14 @@ class HomeState extends State<Home> {
                                                       builder: (
                                                           BuildContext context) =>
                                                           DeliveryActivity(
-                                                              emailController
-                                                                  .text,
-                                                              passwordController
-                                                                  .text)));
+                                                              pickUpLocation,
+                                                              destinationUpLocation)));
                                             },
                                           ),
                                         ],
                                       );
                                     },
                                   );
-                                  /*Navigator.push(context,
-                                    new MaterialPageRoute(builder: (BuildContext context) => PlaceBookForm()));*/
                                 }
                               },
                               textColor: Colors.white,
@@ -376,38 +423,6 @@ class HomeState extends State<Home> {
 
                     ),
                   ),
-                  /*   Container(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-                    RaisedButton(
-                      child: Text("Rock & Roll"),
-                      color: Colors.red,
-                      textColor: Colors.yellow,
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      splashColor: Colors.grey,
-                    )
-                  ],
-                ),
-              ),
-            ),*/
-                  /*
-                FloatingActionButton(
-                onPressed: _onMapTypeButtonPressed,
-                materialTapTargetSize: MaterialTapTargetSize.padded,
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.map, size: 36.0),
-                ),
-                const SizedBox(height: 16.0),
-                FloatingActionButton(
-                onPressed: _onAddMarkerButtonPressed,
-                materialTapTargetSize: MaterialTapTargetSize.padded,
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.add_location, size: 36.0),
-                ),
-                */
                 ],
               ),
             ),
@@ -423,154 +438,29 @@ class HomeState extends State<Home> {
 
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: center == null ? LatLng(0, 0) : center, zoom: 15.0)));
-    getNearbyPlaces(center);
   }
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     refresh();
   }
-
   Future<LatLng> getUserLocation() async {
-    var currentLocation = <String, double>{};
-    //var currentLocation = <String, double>{};
-    final location = LocationManager.Location();
+    await _locationService.changeSettings(accuracy: LocationAccuracy.HIGH, interval: 1000);
+    LocationData location;
+
     try {
-      currentLocation = (await location.getLocation()) as Map<String, double>;
-      final lat = currentLocation["latitude"];
-      final lng = currentLocation["longitude"];
-      final center = LatLng(lat, lng);
-      return center;
+      _permission = await _locationService.requestPermission();
+      print("Permission: $_permission");
+      if (_permission) {
+        location = await _locationService.getLocation();
+        print("Location: ${location.latitude} : lango ${location.longitude}");
+        final center = LatLng(location.latitude, location.longitude);
+        return center;
+      }
     } catch(e) {
-      currentLocation = null;
+
+   //   _currentLocation = null;
       return null;
     }
-  }
-
-  void getNearbyPlaces(LatLng center) async {
-    setState(() {
-      this.isLoading = true;
-      this.errorMessage = null;
-    });
-
-    final location = Location(center.latitude, center.longitude);
-    final result = await _places.searchNearbyWithRadius(location, 2500);
-    setState(() {
-      this.isLoading = false;
-      if (result.status == "OK") {
-        this.places = result.results;
-        result.results.forEach((f) {
-          final markerOptions = MarkerOptions(
-              position:
-              LatLng(f.geometry.location.lat, f.geometry.location.lng),
-              infoWindowText: InfoWindowText("${f.name}", "${f.types?.first}"));
-          mapController.addMarker(markerOptions);
-        });
-      } else {
-        this.errorMessage = result.errorMessage;
-      }
-    });
-  }
-
-  void onError(PlacesAutocompleteResponse response) {
-    homeScaffoldKey.currentState.showSnackBar(
-      SnackBar(content: Text(response.errorMessage)),
-    );
-  }
-
-  Future<void> _handlePressButton() async {
-    try {
-      final center = await getUserLocation();
-      Prediction p = await PlacesAutocomplete.show(
-          context: context,
-          strictbounds: center == null ? false : true,
-          apiKey: kGoogleApiKey,
-          onError: onError,
-          mode: Mode.fullscreen,
-          language: "en",
-          location: center == null
-              ? null
-              : Location(center.latitude, center.longitude),
-          radius: center == null ? null : 10000);
-
-      showDetailPlace(p.placeId);
-    } catch (e) {
-      return;
-    }
-  }
-
-  Future<Null> showDetailPlace(String placeId) async {
-    if (placeId != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PlaceDetailWidget(placeId)),
-      );
-    }
-  }
-
-  ListView buildPlacesList() {
-    final placesWidget = places.map((f) {
-      List<Widget> list = [
-        Padding(
-          padding: EdgeInsets.only(bottom: 4.0),
-          child: Text(
-            f.name,
-            style: Theme.of(context).textTheme.subtitle,
-          ),
-        )
-      ];
-      if (f.formattedAddress != null) {
-        list.add(Padding(
-          padding: EdgeInsets.only(bottom: 2.0),
-          child: Text(
-            f.formattedAddress,
-            style: Theme.of(context).textTheme.subtitle,
-          ),
-        ));
-      }
-
-      if (f.vicinity != null) {
-        list.add(Padding(
-          padding: EdgeInsets.only(bottom: 2.0),
-          child: Text(
-            f.vicinity,
-            style: Theme.of(context).textTheme.body1,
-          ),
-        ));
-      }
-
-      if (f.types?.first != null) {
-        list.add(Padding(
-          padding: EdgeInsets.only(bottom: 2.0),
-          child: Text(
-            f.types.first,
-            style: Theme.of(context).textTheme.caption,
-          ),
-        ));
-      }
-
-      return Padding(
-        padding: EdgeInsets.only(top: 4.0, bottom: 4.0, left: 8.0, right: 8.0),
-        child: Card(
-          child: InkWell(
-            onTap: () {
-              showDetailPlace(f.placeId);
-            },
-            highlightColor: Colors.lightBlueAccent,
-            splashColor: Colors.red,
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: list,
-              ),
-            ),
-          ),
-        ),
-      );
-    }).toList();
-
-    return ListView(shrinkWrap: true, children: placesWidget);
-  }
+}
 }

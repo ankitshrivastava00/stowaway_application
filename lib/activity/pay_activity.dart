@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
-import 'package:razorpay_plugin/razorpay_plugin.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stowaway_application/activity/confirm_activity.dart';
 import 'dart:convert';
@@ -23,11 +23,15 @@ class PayActivity extends StatefulWidget {
 }
 
 class _PayActivityState extends State<PayActivity> {
+  final flutterWebViewPlugin = FlutterWebviewPlugin();
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   String userId;
   Response response;
   String reply;
+  String selectedUrl = 'https://flutter.io';
+
 
 //  SharedPreferences prefs;
   int value,total;
@@ -115,7 +119,9 @@ class _PayActivityState extends State<PayActivity> {
   }*/
 
   startPayment() async {
-    Map<String, dynamic> options = new Map();
+    flutterWebViewPlugin.launch(selectedUrl);
+
+    /*  Map<String, dynamic> options = new Map();
     options.putIfAbsent("name", () => "Stowaway Payment");
     options.putIfAbsent("image", () => "https://www.73lines.com/web/image/12427");
     options.putIfAbsent("description", () => "This is a real transaction");
@@ -158,7 +164,7 @@ class _PayActivityState extends State<PayActivity> {
           fontSize: 16.0);
       Navigator.pushReplacement(context,
           new MaterialPageRoute(builder: (BuildContext context) => ConfirmActivity()));
-    }
+    }*/
   }
   Future<String> apiRequest(String url, Map jsonMap) async {
     try {

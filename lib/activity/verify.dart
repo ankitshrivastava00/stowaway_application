@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:stowaway_application/fragment/mapactivity.dart';
 import 'package:stowaway_application/navigation_drawer/home_pages.dart';
 
 class Verify extends StatefulWidget{

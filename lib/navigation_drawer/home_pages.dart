@@ -3,14 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stowaway_application/activity/home.dart';
 import 'package:stowaway_application/activity/logout.dart';
-import 'package:stowaway_application/activity/payment_activity.dart';
 import 'package:stowaway_application/activity/profile_edit.dart';
 import 'package:stowaway_application/activity/startscreen.dart';
 import 'package:stowaway_application/common/UserPreferences.dart';
-import 'package:stowaway_application/common/socket_activity.dart';
 import 'package:stowaway_application/fragment/booking_fragment.dart';
-import 'package:stowaway_application/fragment/first_fragment.dart';
-import 'package:stowaway_application/fragment/mapactivity.dart';
 import 'package:stowaway_application/fragment/notification_fragment.dart';
 import 'package:stowaway_application/fragment/payment_fragment.dart';
 class DrawerItem {
